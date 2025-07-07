@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
     branches: [ master ]
 
@@ -24,6 +24,6 @@ jobs:
     - uses: actions/checkout@master
     - uses: nanasess/setup-php@master
       with:
-        php-version: '7.4'
+        php-version: '8.3'
     # This triggers our php file we created before
     - run: php ./PatternMatchGenTest.php
