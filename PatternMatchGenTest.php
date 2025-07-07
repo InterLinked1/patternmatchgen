@@ -5,18 +5,6 @@ declare(ticks = 1);
 require_once('PatternMatchGen.php');
 use \PatternMatchGen as PatternMatchGen;
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-#ini_set('zend.assertions', 1); // execute assertions - must be set in cli php.ini
-assert_options(ASSERT_ACTIVE, TRUE);
-assert_options(ASSERT_BAIL, true);
-assert_options(ASSERT_CALLBACK, 'assert_handler');
-function assert_handler() {
-	echo "Assertion failed, aborting" . PHP_EOL;
-	exit(-1);
-}
-
 function getPatternMatches(int $min, int $max) : array {
 	$extensions = array();
 	$numberGroups = array();
@@ -30,14 +18,18 @@ function getPatternMatches(int $min, int $max) : array {
 }
 function validatePatternMatches(array $extensions, array $ranges) {
 	$c = count($extensions);
-	assert($c === count($ranges));
+	if ($c !== count($ranges)) {
+		fprintf(STDERR, "Failed assertion: %d === %d\n", $c, count($ranges));
+	}
 	for ($i = 0; $i < $c; $i++) {
-		echo "Comparing " . $extensions[$i] . " with " . $ranges[$i] . PHP_EOL;
-		assert($extensions[$i] === $ranges[$i]);
+		if ($extensions[$i] !== $ranges[$i]) {
+			/* assert no longer seems to work in later versions of PHP 8,
+			 * and assertion support is now deprecated/being removed in PHP. */
+			fprintf(STDERR, "Failed assertion: %s === %s\n", $extensions[$i], $ranges[$i]);
+			exit(-1);
+		}
 	}
 }
-
-assert(true);
 
 /* begin tests */
 validatePatternMatches(getPatternMatches(134, 142), array('_13[4-9]', '_14[0-2]'));

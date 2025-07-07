@@ -55,8 +55,9 @@ php PatternMatchGen.php <min> <max>
 */
 
 /* Demo usage */
+
 if (php_sapi_name() == 'cli') { # https://stackoverflow.com/a/9765564
-	if (isset($_SERVER['TERM']) && isset($argc)) {
+	if (isset($_SERVER['TERM']) && isset($argc) && count(get_included_files()) === 1) {
 		/* TERM is set on class invocations in a program, but $argc is only set on direct CLI invocation */
 		if ($argc === 3) {
 			$min = (int) $argv[1];
