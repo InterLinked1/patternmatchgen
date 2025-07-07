@@ -32,9 +32,12 @@ function validatePatternMatches(array $extensions, array $ranges) {
 }
 
 /* begin tests */
+validatePatternMatches(getPatternMatches(100, 399), array('_[1-3]XX'));
+validatePatternMatches(getPatternMatches(200, 499), array('_[2-4]XX'));
+validatePatternMatches(getPatternMatches(800, 1199), array('_[8-9]XX', '_1[0-1]XX'));
 validatePatternMatches(getPatternMatches(134, 142), array('_13[4-9]', '_14[0-2]'));
 validatePatternMatches(getPatternMatches(234, 742), array('_23[4-9]', '_2[4-9]X', '_[3-6]XX', '_7[0-3]X', '_74[0-2]'));
-validatePatternMatches(getPatternMatches(636, 6734), array('_63[6-9]', '_6[4-9]X', '_[8-9]XX', '_[1-5]XXX', '_6[0-6]XX', '_67[0-2]X', '_673[0-4]'));
+validatePatternMatches(getPatternMatches(636, 6734), array('_63[6-9]', '_6[4-9]X', '_[7-9]XX', '_[1-5]XXX', '_6[0-6]XX', '_67[0-2]X', '_673[0-4]'));
 /* end tests */
 
 exit(0);

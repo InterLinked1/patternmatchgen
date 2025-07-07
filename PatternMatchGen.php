@@ -144,7 +144,8 @@ class PatternMatchGen {
 			}
 			if ($end >= $cap + $amt) {
 				if (($end + 1) % $amt === 0 && ($end - ($cap + $amt) + 1) % $amt === 0) {
-					static::asn($ptr, $cap + $amt, $end - ($cap + $amt)); # someting like [3-9]X
+					# We don't add $amt to $cap and use the combined value like in lower branches, to ensure that round intervals (e.g. _[1-3]XX) work properly (see issue #1)
+					static::asn($ptr, $cap, $end - $cap); # something like [3-9]X
 				} else {
 					$diff = $end - $cap;
 					if ($diff >= $amt * 2) { # opportunity for something like [0-4]X
